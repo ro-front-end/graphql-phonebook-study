@@ -46,7 +46,7 @@ function PersonsList() {
       {persons.length !== 0 ? (
         <ul className="flex flex-col gap-8 w-full bg-cyan-800 p-9">
           {persons.map((p) => (
-            <li className="flex gap-2 text-cyan-50 w-full" key={p.name}>
+            <li className="flex gap-2 text-cyan-50 w-full" key={p.id}>
               <div className="grid grid-cols-7 items-center w-full">
                 <p className="text-amber-400 col-span-2">{p.name}:</p>
                 <p className="col-span-2">{p.phone}</p>

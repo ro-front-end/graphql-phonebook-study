@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { EDIT_NUMBER } from "../client/mutations";
 import { useForm } from "react-hook-form";
+import { GET_ALL_PERSONS } from "../client/queries";
 
 const inputStyle =
   "text-cyan-950 p-4 bg-cyan-100 outline-cyan-400 border-2 border-cyan-400 focus:rounded-full rounded-xl";
@@ -21,7 +22,9 @@ function EditNumberForm({ person }) {
     },
   });
 
-  const [changeNumber, { loading, error, data }] = useMutation(EDIT_NUMBER);
+  const [changeNumber, { loading, error, data }] = useMutation(EDIT_NUMBER, {
+    refetchQueries: [{ query: GET_ALL_PERSONS }],
+  });
 
   useEffect(() => {
     reset({
@@ -35,6 +38,7 @@ function EditNumberForm({ person }) {
       await changeNumber({ variables: formData });
 
       reset();
+      setShowForm(false);
     } catch (err) {
       console.error("Error editing phone:", err);
     }

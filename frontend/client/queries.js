@@ -8,6 +8,7 @@ export const PERSON_DETAILS = gql`
       street
       city
     }
+    id
   }
 `;
 

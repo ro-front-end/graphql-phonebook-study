@@ -6,17 +6,16 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : null,
+      authorization: token ? `Bearer ${token}` : "",
     },
   };
 });
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000",
+  uri: import.meta.env.VITE_BASE_URL,
 });
 
 const client = new ApolloClient({
-  uri: import.meta.env.VITE_BASE_URL,
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
 });
