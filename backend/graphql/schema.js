@@ -4,9 +4,9 @@ const typeDefs = `
     NO
     }
 
-    type Subscription {
+type Subscription {
   personAdded: Person!
-} 
+}   
 
 
     type Address {

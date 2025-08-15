@@ -15,7 +15,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : null,
     },
   };
 });
@@ -27,6 +27,12 @@ const httpLink = createHttpLink({
 const wsLink = new GraphQLWsLink(
   createClient({
     url: "ws://localhost:4000/graphql",
+    connectionParams: { authorization: null },
+    on: {
+      connected: () => console.log("WS connected"),
+      closed: () => console.log("WS closed"),
+      error: (err) => console.error("WS error", err),
+    },
   })
 );
 

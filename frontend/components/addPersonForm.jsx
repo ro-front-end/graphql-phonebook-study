@@ -1,11 +1,27 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useSubscription } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { CREATE_PERSON } from "../client/mutations";
 import { useState } from "react";
-import { GET_ALL_PERSONS } from "../client/queries";
+import { GET_ALL_PERSONS, PERSON_ADDED } from "../client/queries";
 
 const inputStyle =
   "p-4 bg-cyan-100 outline-cyan-400 border-2 border-cyan-400 focus:rounded-full rounded-xl";
+
+const updateCache = (cache, query, addedPerson) => {
+  const uniqByName = (a) => {
+    let seen = new Set();
+    return a.filter((item) => {
+      let k = item.name;
+      return seen.has(k) ? false : seen.add(k);
+    });
+  };
+
+  cache.updateQuery(query, ({ allPersons }) => {
+    return {
+      allPersons: uniqByName(allPersons.concat(addedPerson)),
+    };
+  });
+};
 
 function AddPersonForm() {
   const [showForm, setShowForm] = useState(false);
@@ -17,6 +33,18 @@ function AddPersonForm() {
   } = useForm();
   const [createPerson, { loading, error, data }] = useMutation(CREATE_PERSON, {
     refetchQueries: [{ query: GET_ALL_PERSONS }],
+  });
+
+  useSubscription(PERSON_ADDED, {
+    onSubscriptionData: ({ subscriptionData, client }) => {
+      if (!subscriptionData || !subscriptionData.data) return;
+
+      const addedPerson = subscriptionData.data.personAdded;
+      if (!addedPerson) return;
+
+      alert(`${addedPerson.name} added`);
+      updateCache(client.cache, { query: GET_ALL_PERSONS }, addedPerson);
+    },
   });
 
   const onSubmit = async (formData) => {

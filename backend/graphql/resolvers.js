@@ -2,9 +2,7 @@ const { GraphQLError } = require("graphql");
 const Person = require("../models/person");
 const { v1: uuid } = require("uuid");
 const jwt = require("jsonwebtoken");
-const { PubSub } = require("graphql-subscriptions");
-const pubsub = new PubSub();
-
+const pubsub = require("../subs/pubsub");
 const User = require("../models/user");
 const { SECRET } = require("../utils/config");
 

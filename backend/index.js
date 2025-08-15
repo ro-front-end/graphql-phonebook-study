@@ -21,8 +21,7 @@ const User = require("./models/user");
 const typeDefs = require("./graphql/schema");
 const resolvers = require("./graphql/resolvers");
 const { PORT, MONGODB, SECRET } = require("./utils/config");
-
-const MONGODB_URI = "mongodb+srv://databaseurlhere";
+const pubsub = require("./subs/pubsub");
 
 console.log("connecting to", MONGODB);
 
@@ -42,10 +41,11 @@ const start = async () => {
 
   const wsServer = new WebSocketServer({
     server: httpServer,
-    path: "/",
+    path: "/graphql",
   });
 
   const schema = makeExecutableSchema({ typeDefs, resolvers });
+
   const serverCleanup = useServer({ schema }, wsServer);
 
   const server = new ApolloServer({
