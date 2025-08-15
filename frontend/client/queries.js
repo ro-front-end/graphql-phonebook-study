@@ -29,3 +29,12 @@ export const FIND_PERSON = gql`
   }
   ${PERSON_DETAILS}
 `;
+
+export const PERSON_ADDED = gql`
+  subscription {
+    personAdded {
+      ...PersonDetails
+    }
+  }
+  ${PERSON_DETAILS}
+`;

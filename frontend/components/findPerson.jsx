@@ -2,7 +2,7 @@ function FindPerson({ result }) {
   if (!result) return null;
 
   return (
-    <div>
+    <div className="">
       <h3>PersonFound:</h3>
       <p>Name: {result.name} </p>
       <p>Phone: {result.phone || "N/A"} </p>

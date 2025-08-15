@@ -33,9 +33,9 @@ function PersonsContainer() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col p-8 justify-center items-center">
       <input
-        className="bg-cyan-100 p-4"
+        className="bg-cyan-100 p-4 rounded-xl"
         type="text"
         value={nameToSearch}
         placeholder="Search by name"
